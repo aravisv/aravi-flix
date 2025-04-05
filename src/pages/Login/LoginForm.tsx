@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { checkValidData } from "../../utils/loginFormHandler";
+import { checkValidData } from "../../utils/loginFormValidator";
 
 const LoginForm = () => {
   const [isRegistered, setIsRegistered] = useState(true);
@@ -17,6 +17,7 @@ const LoginForm = () => {
           e.preventDefault();
           setErrorMessage(
             checkValidData(
+              nameRef?.current?.value,
               //usernameOrNumberRef?.current?.value || "",
               username,
               passwordRef?.current?.value || ""
