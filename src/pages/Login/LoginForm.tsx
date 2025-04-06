@@ -1,11 +1,13 @@
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router";
 import { checkValidData } from "../../utils/loginFormValidator";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../../utils/firebase";
-import useAuthentication from "../hooks/useAuthentication";
+import useAuthentication from "../../hooks/useAuthentication";
 
 const LoginForm = () => {
   const [isRegistered, setIsRegistered] = useState(true);
@@ -13,8 +15,8 @@ const LoginForm = () => {
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const [username, setUsername] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { onSuccessfulLogin } = useAuthentication();
-
+  const navigate = useNavigate();
+  const { onSuccessfulSignup } = useAuthentication();
   const onSubmit = () => {
     const errMessage = checkValidData(
       nameRef?.current?.value,
@@ -34,7 +36,17 @@ const LoginForm = () => {
           passwordRef?.current?.value || ""
         )
           .then((userCredential) => {
-            onSuccessfulLogin(userCredential);
+            updateProfile(userCredential.user, {
+              displayName: nameRef?.current?.value,
+              photoURL: "https://avatars.githubusercontent.com/u/41632834?v=4",
+            })
+              .then(() => {
+                onSuccessfulSignup();
+                navigate("/");
+              })
+              .catch((error) => {
+                setErrorMessage(error.message);
+              });
           })
           .catch((error) => {
             const errorCode = error.code;
@@ -47,8 +59,8 @@ const LoginForm = () => {
           username,
           passwordRef?.current?.value || ""
         )
-          .then((userCredential) => {
-            onSuccessfulLogin(userCredential);
+          .then(() => {
+            navigate("/");
           })
           .catch((error) => {
             const errorCode = error.code;

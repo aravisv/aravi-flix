@@ -1,14 +1,13 @@
-import { RouterProvider } from "react-router/dom";
-import { appRoute } from "./routes/AppRouter.tsx";
 import { Provider } from "react-redux";
 import appStore from "./store/appStore";
+import { Body } from "./components/Body.tsx";
 import "./App.css";
 
 const App = () => {
   return (
     <div>
       <Provider store={appStore}>
-        <RouterProvider router={appRoute} />
+        <Body />
       </Provider>
     </div>
   );
