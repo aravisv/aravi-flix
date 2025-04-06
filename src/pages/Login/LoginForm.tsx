@@ -1,5 +1,11 @@
 import { useRef, useState } from "react";
 import { checkValidData } from "../../utils/loginFormValidator";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../../utils/firebase";
+import useAuthentication from "../hooks/useAuthentication";
 
 const LoginForm = () => {
   const [isRegistered, setIsRegistered] = useState(true);
@@ -7,6 +13,51 @@ const LoginForm = () => {
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const [username, setUsername] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { onSuccessfulLogin } = useAuthentication();
+
+  const onSubmit = () => {
+    const errMessage = checkValidData(
+      nameRef?.current?.value,
+      //usernameOrNumberRef?.current?.value || "",
+      username,
+      passwordRef?.current?.value || ""
+    );
+    setErrorMessage(errMessage);
+
+    if (errMessage) {
+      return;
+    } else {
+      if (!isRegistered) {
+        createUserWithEmailAndPassword(
+          auth,
+          username,
+          passwordRef?.current?.value || ""
+        )
+          .then((userCredential) => {
+            onSuccessfulLogin(userCredential);
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            setErrorMessage(errorCode + "-" + errorMessage);
+          });
+      } else {
+        signInWithEmailAndPassword(
+          auth,
+          username,
+          passwordRef?.current?.value || ""
+        )
+          .then((userCredential) => {
+            onSuccessfulLogin(userCredential);
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            setErrorMessage(errorCode + "-" + errorMessage);
+          });
+      }
+    }
+  };
 
   return (
     <div className="mx-auto my-[10vh] p-4 w-[500px] border rounded-2xl bg-black relative opacity-85 text-center">
@@ -15,14 +66,7 @@ const LoginForm = () => {
         className="flex flex-col justify-center items-center text-white text-center"
         onSubmit={(e) => {
           e.preventDefault();
-          setErrorMessage(
-            checkValidData(
-              nameRef?.current?.value,
-              //usernameOrNumberRef?.current?.value || "",
-              username,
-              passwordRef?.current?.value || ""
-            )
-          );
+          onSubmit();
         }}
       >
         {!isRegistered && (
