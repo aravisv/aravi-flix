@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router";
 import { checkValidData } from "../../utils/loginFormValidator";
 import {
   createUserWithEmailAndPassword,
@@ -15,7 +14,6 @@ const LoginForm = () => {
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const [username, setUsername] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const navigate = useNavigate();
   const { onSuccessfulSignup } = useAuthentication();
   const onSubmit = () => {
     const errMessage = checkValidData(
@@ -42,7 +40,6 @@ const LoginForm = () => {
             })
               .then(() => {
                 onSuccessfulSignup();
-                navigate("/");
               })
               .catch((error) => {
                 setErrorMessage(error.message);
@@ -58,15 +55,11 @@ const LoginForm = () => {
           auth,
           username,
           passwordRef?.current?.value || ""
-        )
-          .then(() => {
-            navigate("/");
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            setErrorMessage(errorCode + "-" + errorMessage);
-          });
+        ).catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + "-" + errorMessage);
+        });
       }
     }
   };
