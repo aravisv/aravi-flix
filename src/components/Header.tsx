@@ -28,7 +28,7 @@ export const Header = () => {
   };
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const authListenerUnsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         loginHandler(user);
       } else {
@@ -36,10 +36,11 @@ export const Header = () => {
         navigate("/login");
       }
     });
+    return () => authListenerUnsubscribe();
   }, []);
 
   return (
-    <div className="bg-gradient-to-b from-black w-[100vw] h-[80px] p-2.5 flex justify-between">
+    <div className="bg-gradient-to-b from-black h-[80px] py-0.5 px-10 flex justify-between">
       <img
         src={NETFLIX_LOGO}
         alt="netflix-logo"
@@ -50,7 +51,6 @@ export const Header = () => {
           className="text-white cursor-pointer flex items-center"
           onClick={() => {
             signOut(auth);
-            //navigate("/login");
           }}
         >
           <img

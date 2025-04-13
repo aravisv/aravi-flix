@@ -7,6 +7,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../../utils/firebase";
 import useAuthentication from "../../hooks/useAuthentication";
+import { USER_AVATAR } from "../../constants";
 
 const LoginForm = () => {
   const [isRegistered, setIsRegistered] = useState(true);
@@ -36,7 +37,7 @@ const LoginForm = () => {
           .then((userCredential) => {
             updateProfile(userCredential.user, {
               displayName: nameRef?.current?.value,
-              photoURL: "https://avatars.githubusercontent.com/u/41632834?v=4",
+              photoURL: USER_AVATAR,
             })
               .then(() => {
                 onSuccessfulSignup();

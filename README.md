@@ -36,3 +36,6 @@
        reducer functions will be exported as actions
     5. add slice reducers to store
     6. react-redux's useSelector and useDispatch to use the states and dispatch the actions respectively
+13. added onAuthStateChanged listener in Header component
+14. created TMDB account, fetched movies and stored them in movieSlice.
+    showing the movie trailer in browse page background via Youtube iframe embedded
