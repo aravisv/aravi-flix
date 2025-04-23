@@ -39,3 +39,4 @@
 13. added onAuthStateChanged listener in Header component
 14. created TMDB account, fetched movies and stored them in movieSlice.
     showing the movie trailer in browse page background via Youtube iframe embedded
+15. showing movies list

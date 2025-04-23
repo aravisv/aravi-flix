@@ -6,23 +6,20 @@ import { RootState } from "../../../store/appStore";
 const VideoBackground: React.FC<{ movieId: string }> = ({ movieId }) => {
   const movieVideo = useSelector((store: RootState) => store.movie.movieVideo);
   const { fetchMovieTrailer } = useMovies();
-  console.log({ movieVideo });
 
   useEffect(() => {
     fetchMovieTrailer(movieId);
   }, []);
 
   return (
-    <div>
+    <div className="">
       {movieVideo && (
         <iframe
-          width="560"
-          height="315"
+          className="w-screen aspect-video"
           //@ts-ignore
-          src={`https://www.youtube.com/embed/${movieVideo.key}`}
+          src={`https://www.youtube.com/embed/${movieVideo.key}?autoplay=1&mute=1&loop=1&playlist=${movieVideo.key}&controls=0&modestbranding=1&showinfo=0`}
           title="YouTube video player"
           referrerPolicy=""
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         ></iframe>
       )}
     </div>

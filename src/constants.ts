@@ -15,3 +15,5 @@ export const movieDBOptions = {
       "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNjM0ODFjYjdhNzczZWEyZDA3OTkwNGY5ZTVhM2E1OSIsIm5iZiI6MTc0NDQ2NjU3MC40MjUsInN1YiI6IjY3ZmE3MjhhZGU1ZTRkZWM2MmFkYmI1MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.qj1WtfiXZ1L-WHf9Ypaz8XSun3T03oiznUXq4wFk3nI",
   },
 };
+
+export const MOVIE_POSTER_IMG_PATH_PREFIX = `https://image.tmdb.org/t/p/w780/`;

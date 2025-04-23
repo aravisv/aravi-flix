@@ -5,21 +5,21 @@ import VideoBackground from "./VideoBackground";
 
 const MainContent = () => {
   const nowPlayingMovies = useSelector(
-    (store: RootState) => store.movie.movies
+    (store: RootState) => store.movie.nowPlayingMovies
   );
 
   if (!nowPlayingMovies) return;
 
   //@ts-ignore
-  const mainMovie = nowPlayingMovies?.length ? nowPlayingMovies[0] : null;
+  const mainMovie = nowPlayingMovies?.length ? nowPlayingMovies[1] : null;
 
   //@ts-ignore
   const { id, title, overview } = mainMovie;
   return (
-    <>
-      <VideoTitle id={id} title={title} description={overview} />
+    <div className="">
       <VideoBackground movieId={id} />
-    </>
+      <VideoTitle title={title} description={overview} />
+    </div>
   );
 };
 
